@@ -21,7 +21,7 @@ parseTeX = f -> (
     )
 
 -* ex of use
-"~/Dropbox/Work/cotangent/notes-parsed.tex" << parseTeX get "~/Dropbox/Work/cotangent/notes.tex"<< close
+"ex-parsed.tex" << parseTeX get "ex.tex" << close
 *-
 
 -----------------
