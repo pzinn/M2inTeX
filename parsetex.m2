@@ -23,7 +23,8 @@ parseTeX = f -> (
     if s#0 then print "warning: running the code produced an error";
     topLevelMode = saveMode;
     --  s = separate("(?="|inputComment1|"[^%]*?"|codeComment|")",last s);
-    s = apply(drop(separate("(?="|inputComment1|"[^%]*?"|codeComment1|")",last s),-1),x->replace(codeComment1,"",x));
+    s = apply(drop(separate("(?="|inputComment1|"[^%]*?"|codeComment1|")",last s),-1),
+        x->"\\smallskip\n" | replace(codeComment1,"",x) | "\\smallskip\n");
     concatenate mingle(rest,s)
     )
 
