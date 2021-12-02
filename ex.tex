@@ -8,17 +8,17 @@
 \maketitle
 
 \section{Introduction}
-blah blah
+some basic examples:
 \begin{verbatim}
 R=QQ[x,y]; factor(x^3-y^3)
 res coker vars R
 \end{verbatim}
-but what about
+more:
 \begin{verbatim}
 318/46
 exp 3.73767
 \end{verbatim}
-and strings:
+strings:
 \begin{verbatim}
 "hehe"
 \end{verbatim}
@@ -26,21 +26,23 @@ and nets: TODO fix {\tt tex Net}
 \begin{verbatim}
 "haha"||"hihi"
 \end{verbatim}
-or help:
+
+\section{Help}
 \begin{verbatim}
 help det
 \end{verbatim}
 
 \section{packages}
+packages that have a {\tt tex} output will work:
 \begin{verbatim}
 needsPackage "Posets";
 booleanLattice 3
 \end{verbatim}
 
-\section{multi-line fail}
+\section{multi-line example}
 \begin{verbatim}
 f = i -> (
-  i+1
+i+1
 )
 \end{verbatim}
 

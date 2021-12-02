@@ -8,14 +8,15 @@
 \maketitle
 
 \section{Introduction}
-blah blah
-\smallskip
+some basic examples:
+% start M2
 \begin{verbatim}
 i1 : R=QQ[x,y]; factor(x^3-y^3)
 \end{verbatim}
 \noindent\verb|o2 = |$\left(x-y\right)\left(x^{  2}+x\,y+y^{  2}\right)$
 
 \noindent\verb|o2 : |$\texttt{Expression}\texttt{ of class }\texttt{Product}$
+% start M2
 \begin{verbatim}
 i3 : res coker vars R
 \end{verbatim}
@@ -27,43 +28,41 @@ x\\
 \end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{  1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$
 
 \noindent\verb|o3 : |$\texttt{ChainComplex}$
-\smallskip
 
-but what about
-\smallskip
+more:
+% start M2
 \begin{verbatim}
 i4 : 318/46
 \end{verbatim}
 \noindent\verb|o4 = |$\frac{159}{ 23}$
 
 \noindent\verb|o4 : |${\mathbb Q}$
+% start M2
 \begin{verbatim}
 i5 : exp 3.73767
 \end{verbatim}
 \noindent\verb|o5 = |${42}$
 
 \noindent\verb|o5 : |${\mathbb R}\texttt{ (of precision } 53\texttt{)}$
-\smallskip
 
-and strings:
-\smallskip
+strings:
+% start M2
 \begin{verbatim}
 i6 : "hehe"
 \end{verbatim}
 \noindent\verb|o6 = |hehe
-\smallskip
 
 and nets: TODO fix {\tt tex Net}
-\smallskip
+% start M2
 \begin{verbatim}
 i7 : "haha"||"hihi"
 \end{verbatim}
 \noindent\verb|o7 = |$\begin{array}{l}\texttt{haha}\\
 \texttt{hihi}\end{array}$
-\smallskip
 
-or help:
-\smallskip
+
+\section{Help}
+% start M2
 \begin{verbatim}
 i8 : help det
 \end{verbatim}
@@ -122,15 +121,15 @@ For the programmer\endgroup
 \par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.
 
 \noindent\verb|o8 : |$\texttt{DIV}$
-\smallskip
 
 
-
-\section{blah}
-\smallskip
+\section{packages}
+packages that have a {\tt tex} output will work:
+% start M2
 \begin{verbatim}
 i9 : needsPackage "Posets";
 \end{verbatim}
+% start M2
 \begin{verbatim}
 i10 : booleanLattice 3
 \end{verbatim}
@@ -149,10 +148,19 @@ i10 : booleanLattice 3
 
 
 \noindent\verb|o10 : |$\texttt{Poset}$
-\smallskip
 
-\section{blah}
-\section{blah}
+
+\section{multi-line example}
+% start M2
+\begin{verbatim}
+i11 : f = i -> (
+      i+1
+      )
+\end{verbatim}
+\noindent\verb|o11 = |$\texttt{f}$
+
+\noindent\verb|o11 : |$\texttt{FunctionClosure}$
+
 
 
 \end{document}

@@ -1,46 +1,48 @@
 debug Core
 
-codeEnv = "verbatim"; -- the environment used in the TeX file for M2 code
+codeEnv := "verbatim"; -- the environment used in the TeX file for M2 code
 
-codeRegex = "\\\\begin{"|codeEnv|"}\n*([\\s\\S]*?)\n*\\\\end{"|codeEnv|"}";
+codeRegex := "\\\\begin{"|codeEnv|"}\n*([\\s\\S]*?)\n*\\\\end{"|codeEnv|"}";
 
 verbatim := false; -- not thread-safe
 
+codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
+codeComment1 := regexQuote codeComment;
+
+inputComment := "% start M2\n"; -- comment added in TeX to mark start of a M2 code chunk
+inputComment1 := regexQuote inputComment;
+
 parseTeX = f -> (
-    codes := select(codeRegex,"$1",f);
+    codes := select(codeRegex,codeComment|"$1",f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
     --print(codes,rest);
     saveMode := topLevelMode; -- not thread-safe
     verbatim = false;
     topLevelMode = TeX;
-    s := capture codes;
+    s := capture append(codes,codeComment);
     if s#0 then print "warning: running the code produced an error";
     topLevelMode = saveMode;
-    s = separate("%input\n",last s);--print s;
-    k := 1;
-    concatenate mingle(rest,apply(codes, ss -> (
-        l := min(#(lines ss),#s-k);
-        first("\\smallskip\n" | concatenate s_{k..<k+l} | "\\smallskip\n",
-        k = k+l)
-        )))
+    --  s = separate("(?="|inputComment1|"[^%]*?"|codeComment|")",last s);
+    s = apply(drop(separate("(?="|inputComment1|"[^%]*?"|codeComment1|")",last s),-1),x->replace(codeComment1,"",x));
+    concatenate mingle(rest,s)
     )
 
 -* ex of use
-"ex-parsed.tex" << parseTeX get "ex.tex" << close
+"M2inTeX/ex-parsed.tex" << parseTeX get "M2inTeX/ex.tex" << close
 *-
 
 -----------------
-
+lastprompt:=""; -- borrowed from startup.m2.in
 ZZ#{TeX,InputPrompt} = lineno -> (
     concatenate(
-        "%input\n",
+        inputComment,
         if not verbatim then (verbatim = true; "\\begin{verbatim}\n"),
-        interpreterDepth:"i",
-        toString lineno,
-        " : "
+        lastprompt = concatenate(interpreterDepth:"i",
+            toString lineno,
+            " : ")
         ))
 
-ZZ#{TeX,InputContinuationPrompt} = identity
+ZZ#{TeX,InputContinuationPrompt} = lineno -> #lastprompt;
 
 Nothing#{TeX,Print} = identity
 
