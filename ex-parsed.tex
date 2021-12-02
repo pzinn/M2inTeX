@@ -16,7 +16,7 @@ i1 : R=QQ[x,y]; factor(x^3-y^3)
 \end{verbatim}
 \noindent\verb|o2 = |$\left(x-y\right)\left(x^{  2}+x\,y+y^{  2}\right)$
 
-\noindent\verb|o2 : |$\texttt{Expression}\texttt{ of class }\texttt{Product}$
+\noindent\verb|o2 : |$\texttt{Expression}$ of class $\texttt{Product}$
 % start M2
 \begin{verbatim}
 i3 : res coker vars R
@@ -29,43 +29,50 @@ x\\
 \end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{  1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$
 
 \noindent\verb|o3 : |$\texttt{ChainComplex}$
+% start M2
+\begin{verbatim}
+i4 : OO_(Proj(R/(x^3-y^3)))^{1,2}
+\end{verbatim}
+\noindent\verb|o4 = |${\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{  3}-y^{  3}}\right)}^{  1}\left(  1\right)\ \oplus \ {\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{  3}-y^{  3}}\right)}^{  1}\left(  2\right)$
+
+\noindent\verb|o4 : |coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{  3}-y^{  3}}\right)$, free
 \smallskip
 
 more:
 \smallskip
 % start M2
 \begin{verbatim}
-i4 : 318/46
+i5 : 318/46
 \end{verbatim}
-\noindent\verb|o4 = |$\frac{159}{ 23}$
+\noindent\verb|o5 = |$\frac{159}{ 23}$
 
-\noindent\verb|o4 : |${\mathbb Q}$
+\noindent\verb|o5 : |${\mathbb Q}$
 % start M2
 \begin{verbatim}
-i5 : exp 3.73767
+i6 : exp 3.73767
 \end{verbatim}
-\noindent\verb|o5 = |${42}$
+\noindent\verb|o6 = |${42}$
 
-\noindent\verb|o5 : |${\mathbb R}\texttt{ (of precision } 53\texttt{)}$
+\noindent\verb|o6 : |${\mathbb R}$ (of precision $ 53$)
 \smallskip
 
 strings:
 \smallskip
 % start M2
 \begin{verbatim}
-i6 : "hehe"
+i7 : "hehe"
 \end{verbatim}
-\noindent\verb|o6 = |hehe
+\noindent\verb|o7 = |hehe
 \smallskip
 
-and nets: TODO fix {\tt tex Net}
+and nets: ({\tt tex Net} fixed on vanilla)
 \smallskip
 % start M2
 \begin{verbatim}
-i7 : "haha"||"hihi"
+i8 : "haha"||"hoho"
 \end{verbatim}
-\noindent\verb|o7 = |$\begin{array}{l}\texttt{haha}\\
-\texttt{hihi}\end{array}$
+\noindent\verb|o8 = |\begin{tabular}[t]{l}haha\\
+hoho\end{tabular}
 \smallskip
 
 
@@ -73,9 +80,9 @@ i7 : "haha"||"hihi"
 \smallskip
 % start M2
 \begin{verbatim}
-i8 : help det
+i9 : help det
 \end{verbatim}
-\noindent\verb|o8 = |
+\noindent\verb|o9 = |
 \par \medskip\noindent\begingroup\Large\bf
 determinant -- determinant of a matrix\endgroup
 \par \smallskip%
@@ -129,7 +136,7 @@ For the programmer\endgroup
 
 \par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.
 
-\noindent\verb|o8 : |$\texttt{DIV}$
+\noindent\verb|o9 : |$\texttt{DIV}$
 \smallskip
 
 
@@ -138,13 +145,14 @@ packages that have a {\tt tex} output will work:
 \smallskip
 % start M2
 \begin{verbatim}
-i9 : needsPackage "Posets";
+i10 : needsPackage "Posets";
+ -- warning: the "DefaultPDFViewer" configuration option is deprecated
 \end{verbatim}
 % start M2
 \begin{verbatim}
-i10 : booleanLattice 3
+i11 : booleanLattice 3
 \end{verbatim}
-\noindent\verb|o10 = |\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
+\noindent\verb|o11 = |\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
 	\node [vertices] (0) at (-0+0,0){};
 	\node [vertices] (1) at (-1.5+0,1.33333){};
 	\node [vertices] (2) at (-1.5+1.5,1.33333){};
@@ -158,7 +166,7 @@ i10 : booleanLattice 3
 \end{tikzpicture}
 
 
-\noindent\verb|o10 : |$\texttt{Poset}$
+\noindent\verb|o11 : |$\texttt{Poset}$
 \smallskip
 
 
@@ -166,13 +174,13 @@ i10 : booleanLattice 3
 \smallskip
 % start M2
 \begin{verbatim}
-i11 : f = i -> (
+i12 : f = i -> (
       i+1
       )
 \end{verbatim}
-\noindent\verb|o11 = |$\texttt{f}$
+\noindent\verb|o12 = |$\texttt{f}$
 
-\noindent\verb|o11 : |$\texttt{FunctionClosure}$
+\noindent\verb|o12 : |$\texttt{FunctionClosure}$
 \smallskip
 
 
