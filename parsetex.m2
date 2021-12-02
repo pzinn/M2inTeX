@@ -4,17 +4,22 @@ codeEnv = "verbatim"; -- the environment used in the TeX file for M2 code
 
 codeRegex = "\\\\begin{"|codeEnv|"}\n*([\\s\\S]*?)\n*\\\\end{"|codeEnv|"}";
 
+verbatim := false; -- not thread-safe
+
 parseTeX = f -> (
     codes := select(codeRegex,"$1",f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
+    --print(codes,rest);
     saveMode := topLevelMode; -- not thread-safe
+    verbatim = false;
     topLevelMode = TeX;
     s := capture codes;
+    if s#0 then print "warning: running the code produced an error";
     topLevelMode = saveMode;
-    s = drop(separate("%input\n",last s),-1);
+    s = separate("%input\n",last s);--print s;
     k := 1;
     concatenate mingle(rest,apply(codes, ss -> (
-        l := #(lines ss); -- is there better?
+        l := min(#(lines ss),#s-k);
         first("\\smallskip\n" | concatenate s_{k..<k+l} | "\\smallskip\n",
         k = k+l)
         )))
@@ -26,17 +31,16 @@ parseTeX = f -> (
 
 -----------------
 
-
-ZZ#{TeX,InputPrompt} = lineno -> concatenate(
-    "%input\n\\begin{verbatim}\n", -- or whatever
-    interpreterDepth:"i",
-    toString lineno,
-    " : "
-    )
+ZZ#{TeX,InputPrompt} = lineno -> (
+    concatenate(
+        "%input\n",
+        if not verbatim then (verbatim = true; "\\begin{verbatim}\n"),
+        interpreterDepth:"i",
+        toString lineno,
+        " : "
+        ))
 
 ZZ#{TeX,InputContinuationPrompt} = identity
-
-Thing#{TeX,BeforePrint} = identity
 
 Nothing#{TeX,Print} = identity
 
@@ -45,14 +49,21 @@ on := () -> concatenate(interpreterDepth:"o", toString lineNumber)
 Thing#{TeX,Print} = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";
-    << "\\end{verbatim}\n\\verb|" | on() | " = |" | y << endl;
+    << "\\noindent\\verb|" | on() | " = |" | y << endl;
+    )
+Thing#{TeX,BeforePrint} = x -> (
+    if verbatim then (
+        << "\\end{verbatim}\n";
+        verbatim = false;
+        );
+    x
     )
 
 texAfterPrint :=  x -> (
     if class x === Sequence then x = RowExpression deepSplice { x };
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid html output";
-    << "\\\\\n\\verb|" | on() | " : |" |  y  << endl;
+    << "\n\\noindent\\verb|" | on() | " : |" |  y  << endl;
     )
 
 -- all that's below would go if afterprint was expressionified

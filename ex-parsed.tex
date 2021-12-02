@@ -13,20 +13,20 @@ blah blah
 \begin{verbatim}
 i1 : R=QQ[x,y]; factor(x^3-y^3)
 \end{verbatim}
-\verb|o2 = |$\left(x-y\right)\left(x^{  2}+x\,y+y^{  2}\right)$
-\\
-\verb|o2 : |$\texttt{Expression}\texttt{ of class }\texttt{Product}$
+\noindent\verb|o2 = |$\left(x-y\right)\left(x^{  2}+x\,y+y^{  2}\right)$
+
+\noindent\verb|o2 : |$\texttt{Expression}\texttt{ of class }\texttt{Product}$
 \begin{verbatim}
 i3 : res coker vars R
 \end{verbatim}
-\verb|o3 = |$\underset{\vphantom{\Big|}0}{R^{  1}}\,\xleftarrow{\left(\begin{smallmatrix}
+\noindent\verb|o3 = |$\underset{\vphantom{\Big|}0}{R^{  1}}\,\xleftarrow{\left(\begin{smallmatrix}
 x&y\\
 \end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}1}{R^{  2}}\,\xleftarrow{\left(\begin{smallmatrix}
 -y\\
 x\\
 \end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{  1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$
-\\
-\verb|o3 : |$\texttt{ChainComplex}$
+
+\noindent\verb|o3 : |$\texttt{ChainComplex}$
 \smallskip
 
 but what about
@@ -34,15 +34,15 @@ but what about
 \begin{verbatim}
 i4 : 318/46
 \end{verbatim}
-\verb|o4 = |$\frac{159}{ 23}$
-\\
-\verb|o4 : |${\mathbb Q}$
+\noindent\verb|o4 = |$\frac{159}{ 23}$
+
+\noindent\verb|o4 : |${\mathbb Q}$
 \begin{verbatim}
 i5 : exp 3.73767
 \end{verbatim}
-\verb|o5 = |${42}$
-\\
-\verb|o5 : |${\mathbb R}\texttt{ (of precision } 53\texttt{)}$
+\noindent\verb|o5 = |${42}$
+
+\noindent\verb|o5 : |${\mathbb R}\texttt{ (of precision } 53\texttt{)}$
 \smallskip
 
 and strings:
@@ -50,7 +50,7 @@ and strings:
 \begin{verbatim}
 i6 : "hehe"
 \end{verbatim}
-\verb|o6 = |hehe
+\noindent\verb|o6 = |hehe
 \smallskip
 
 and nets: TODO fix {\tt tex Net}
@@ -58,7 +58,7 @@ and nets: TODO fix {\tt tex Net}
 \begin{verbatim}
 i7 : "haha"||"hihi"
 \end{verbatim}
-\verb|o7 = |$\begin{array}{l}\texttt{haha}\\
+\noindent\verb|o7 = |$\begin{array}{l}\texttt{haha}\\
 \texttt{hihi}\end{array}$
 \smallskip
 
@@ -67,7 +67,7 @@ or help:
 \begin{verbatim}
 i8 : help det
 \end{verbatim}
-\verb|o8 = |
+\noindent\verb|o8 = |
 \par \medskip\noindent\begingroup\Large\bf
 determinant -- determinant of a matrix\endgroup
 \par \smallskip%
@@ -120,13 +120,37 @@ For the programmer\endgroup
 \par \smallskip%
 
 \par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.
-\\
-\verb|o8 : |$\texttt{DIV}$
+
+\noindent\verb|o8 : |$\texttt{DIV}$
 \smallskip
 
 
 
 \section{blah}
+\smallskip
+\begin{verbatim}
+i9 : needsPackage "Posets";
+\end{verbatim}
+\begin{verbatim}
+i10 : booleanLattice 3
+\end{verbatim}
+\noindent\verb|o10 = |\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
+	\node [vertices] (0) at (-0+0,0){};
+	\node [vertices] (1) at (-1.5+0,1.33333){};
+	\node [vertices] (2) at (-1.5+1.5,1.33333){};
+	\node [vertices] (4) at (-1.5+3,1.33333){};
+	\node [vertices] (3) at (-1.5+0,2.66667){};
+	\node [vertices] (5) at (-1.5+1.5,2.66667){};
+	\node [vertices] (6) at (-1.5+3,2.66667){};
+	\node [vertices] (7) at (-0+0,4){};
+\foreach \to/\from in {0/1, 2/3, 0/2, 1/3, 4/5, 6/7, 4/6, 5/7, 0/4, 1/5, 2/6, 3/7}
+\draw [-] (\to)--(\from);
+\end{tikzpicture}
+
+
+\noindent\verb|o10 : |$\texttt{Poset}$
+\smallskip
+
 \section{blah}
 \section{blah}
 
