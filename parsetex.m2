@@ -1,8 +1,7 @@
 debug Core
 
-codeEnv := "verbatim"; -- the environment used in the TeX file for M2 code
+codeEnv = "verbatim"; -- the environment used in the TeX file for M2 code
 
-codeRegex := "\\\\begin{"|codeEnv|"}\n*([\\s\\S]*?)\n*\\\\end{"|codeEnv|"}";
 
 verbatim := false; -- not thread-safe
 
@@ -12,6 +11,8 @@ codeComment1 := regexQuote codeComment;
 inputComment := "% start M2\n"; -- comment added in TeX to mark start of a M2 code chunk
 inputComment1 := regexQuote inputComment;
 
+codeRegex := "(?<!"|regexQuote inputComment|")\\\\begin{"|regexQuote codeEnv|"}\n*([\\s\\S]*?)\n*\\\\end{"|codeEnv|"}";
+
 parseTeX = f -> (
     codes := select(codeRegex,codeComment|"$1",f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
@@ -20,7 +21,7 @@ parseTeX = f -> (
     verbatim = false;
     topLevelMode = TeX;
     s := capture append(codes,codeComment);
-    if s#0 then print "warning: running the code produced an error";
+    if s#0 then print ("warning: running the code produced an error"|s#1);
     topLevelMode = saveMode;
     --  s = separate("(?="|inputComment1|"[^%]*?"|codeComment|")",last s);
     s = apply(drop(separate("(?="|inputComment1|"[^%]*?"|codeComment1|")",last s),-1),
