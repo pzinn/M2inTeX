@@ -1,5 +1,33 @@
 \documentclass[12pt,a4paper]{amsart}
 \usepackage{amssymb}
+\usepackage{listings}
+\lstdefinelanguage{Macaulay2}
+{morekeywords={for,from,if,do,while,apply,scan,print,method,help,viewHelp,table,exp,factor,needsPackage,ideal,det,determinan,res,coker,vars,Proj}, % TODO: use make-M2-symbols.m2
+sensitive=false,
+morecomment=[l]{--},
+morecomment=[s]{-*}{*-},
+morestring=[b]",
+rulecolor=\color{blue!30},
+}
+\lstset{
+  escapechar={`},
+  aboveskip=0pt,
+  belowskip=0pt,
+  numbers=none,
+  frame=leftline,
+  framerule=1ex,
+  framesep=1ex,
+  xleftmargin=2ex,
+  basicstyle={\ttfamily},
+  columns=fixed,
+  showstringspaces=false,
+  commentstyle={\ttfamily\color{gray}},
+  keywordstyle={\ttfamily\color{blue}},
+  stringstyle={\ttfamily},
+  fontadjust=true,
+  basewidth={1.09ex},
+  breaklines=false,
+}
 \usepackage[a4paper,left=2.25cm,right=2.25cm,top=3cm,bottom=3cm,headsep=1cm]{geometry}
 \usepackage{tikz}%\usetikzlibrary{fit,positioning,matrix,calc,decorations.markings,angles,decorations.pathmorphing,decorations.pathreplacing}%,matrix,fit,shapes.geometric}
 \title{Example file for M2inTeX}
@@ -11,78 +39,74 @@
 some basic examples:
 \smallskip
 % start M2
-\begin{verbatim}
-i1 : R=QQ[x,y]; factor(x^3-y^3)
-\end{verbatim}
-\noindent\underline{\tt o2}\verb| = |$\left(x-y\right)\left(x^{2}+x\,y+y^{2}\right)$
-
-\noindent\underline{\tt o2}\verb| : |$\texttt{Expression}$ of class $\texttt{Product}$
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i1}` : R=QQ[x,y]; factor(x^3-y^3)
+\end{lstlisting}
+\begin{lstlisting}[language=Macaulay2]
+`\underline{o2}` = `$\left(x-y\right)\left(x^{2}+x\,y+y^{2}\right)$`
+`\underline{o2}` : `$\texttt{Expression}$ of class $\texttt{Product}$`
+\end{lstlisting}
 % start M2
-\begin{verbatim}
-i3 : res coker vars R
-\end{verbatim}
-\noindent\underline{\tt o3}\verb| = |$\underset{\vphantom{\Big|}0}{R^{1}}\,\xleftarrow{\left(\begin{smallmatrix}
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i3}` : res coker vars R
+`\underline{o3}` = `$\underset{\vphantom{\Big|}0}{R^{1}}\,\xleftarrow{\left(\begin{smallmatrix}
 x&y\\
 \end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}1}{R^{2}}\,\xleftarrow{\left(\begin{smallmatrix}
 -y\\
 x\\
-\end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$
-
-\noindent\underline{\tt o3}\verb| : |$\texttt{ChainComplex}$
+\end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$`
+`\underline{o3}` : `$\texttt{ChainComplex}$`
+\end{lstlisting}
 % start M2
-\begin{verbatim}
-i4 : OO_(Proj(R/(x^3-y^3)))^{1,2}
-\end{verbatim}
-\noindent\underline{\tt o4}\verb| = |${\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(1\right)\ \oplus \ {\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(2\right)$
-
-\noindent\underline{\tt o4}\verb| : |coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)$, free
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i4}` : OO_(Proj(R/(x^3-y^3)))^{1,2}
+`\underline{o4}` = `${\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(1\right)\ \oplus \ {\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(2\right)$`
+`\underline{o4}` : `coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)$, free`
+\end{lstlisting}
 \smallskip
 
 more:
 \smallskip
 % start M2
-\begin{verbatim}
-i5 : 318/46
-\end{verbatim}
-\noindent\underline{\tt o5}\verb| = |$\frac{159}{23}$
-
-\noindent\underline{\tt o5}\verb| : |${\mathbb Q}$
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i5}` : 318/46
+`\underline{o5}` = `$\frac{159}{23}$`
+`\underline{o5}` : `${\mathbb Q}$`
+\end{lstlisting}
 % start M2
-\begin{verbatim}
-i6 : exp 3.73767
-\end{verbatim}
-\noindent\underline{\tt o6}\verb| = |${42}$
-
-\noindent\underline{\tt o6}\verb| : |${\mathbb R}$ (of precision $53$)
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i6}` : exp 3.73767
+`\underline{o6}` = `${42}$`
+`\underline{o6}` : `${\mathbb R}$ (of precision $53$)`
+\end{lstlisting}
 \smallskip
 
 strings:
 \smallskip
 % start M2
-\begin{verbatim}
-i7 : "hehe"
-\end{verbatim}
-\noindent\underline{\tt o7}\verb| = |hehe
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i7}` : "hehe"
+`\underline{o7}` = `hehe`
+\end{lstlisting}
 \smallskip
 
 and nets: ({\tt tex Net} fixed on vanilla)
 \smallskip
 % start M2
-\begin{verbatim}
-i8 : "haha"||"hoho"
-\end{verbatim}
-\noindent\underline{\tt o8}\verb| = |\begin{tabular}[t]{l}haha\\
-hoho\end{tabular}
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i8}` : "haha"||"hoho"
+`\underline{o8}` = `\begin{tabular}[t]{l}haha\\
+hoho\end{tabular}`
+\end{lstlisting}
 \smallskip
 
 
 \section{Help}
 \smallskip
 % start M2
-\begin{verbatim}
-i9 : help det
-\end{verbatim}
-\noindent\underline{\tt o9}\verb| = |
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i9}` : help det
+`\underline{o9}` = `
 \par \medskip\noindent\begingroup\Large\bf
 determinant -- determinant of a matrix\endgroup
 \par \smallskip%
@@ -134,9 +158,9 @@ Ways to use \begingroup\tt determinant\endgroup{} :\endgroup
 For the programmer\endgroup
 \par \smallskip%
 
-\par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.
-
-\noindent\underline{\tt o9}\verb| : |$\texttt{DIV}$
+\par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.`
+`\underline{o9}` : `$\texttt{DIV}$`
+\end{lstlisting}
 \smallskip
 
 
@@ -144,14 +168,13 @@ For the programmer\endgroup
 packages that have a {\tt tex} output will work:
 \smallskip
 % start M2
-\begin{verbatim}
-i10 : needsPackage "Posets";
-\end{verbatim}
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i10}` : needsPackage "Posets";
+\end{lstlisting}
 % start M2
-\begin{verbatim}
-i11 : booleanLattice 3
-\end{verbatim}
-\noindent\underline{\tt o11}\verb| = |\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i11}` : booleanLattice 3
+`\underline{o11}` = `\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
 	\node [vertices] (0) at (-0+0,0){};
 	\node [vertices] (1) at (-1.5+0,1.33333){};
 	\node [vertices] (2) at (-1.5+1.5,1.33333){};
@@ -163,53 +186,51 @@ i11 : booleanLattice 3
 \foreach \to/\from in {0/1, 2/3, 0/2, 1/3, 4/5, 6/7, 4/6, 5/7, 0/4, 1/5, 2/6, 3/7}
 \draw [-] (\to)--(\from);
 \end{tikzpicture}
-
-
-\noindent\underline{\tt o11}\verb| : |$\texttt{Poset}$
+`
+`\underline{o11}` : `$\texttt{Poset}$`
+\end{lstlisting}
 \smallskip
 
 
 \section{multi-line example}
 \smallskip
 % start M2
-\begin{verbatim}
-i12 : f = i -> (
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i12}` : f = i -> (
       i+1
       )
-\end{verbatim}
-\noindent\underline{\tt o12}\verb| = |$\texttt{f}$
-
-\noindent\underline{\tt o12}\verb| : |$\texttt{FunctionClosure}$
+`\underline{o12}` = `$\texttt{f}$`
+`\underline{o12}` : `$\texttt{FunctionClosure}$`
+\end{lstlisting}
 \smallskip
 
 
 
 \smallskip
 % start M2
-\begin{verbatim}
-i13 : I=ideal 0; f = i -> (
-\end{verbatim}
-
-\noindent\underline{\tt o13}\verb| : |$\texttt{Ideal}$ of ${\mathbb Z}$
-\begin{verbatim}
-      i+1)
-\end{verbatim}
-\noindent\underline{\tt o14}\verb| = |$\texttt{f}$
-
-\noindent\underline{\tt o14}\verb| : |$\texttt{FunctionClosure}$
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i13}` : I=ideal 0; f = i -> (
+`\underline{o13}` : `$\texttt{Ideal}$ of ${\mathbb Z}$`
+\end{lstlisting}
+\begin{lstlisting}[language=Macaulay2]
+   i+1)
+`\underline{o14}` = `$\texttt{f}$`
+`\underline{o14}` : `$\texttt{FunctionClosure}$`
+\end{lstlisting}
 \smallskip
 
 
 \smallskip
 % start M2
-\begin{verbatim}
-i15 : a=1;b=2;
-\end{verbatim}
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i15}` : a=1;b=2;
+\end{lstlisting}
 % start M2
-\begin{verbatim}
-i17 : c=3;
-\end{verbatim}
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i17}` : c=3;
+\end{lstlisting}
 \smallskip
 
+That last one has no output
 
 \end{document}

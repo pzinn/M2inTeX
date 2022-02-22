@@ -1,5 +1,33 @@
 \documentclass[12pt,a4paper]{amsart}
 \usepackage{amssymb}
+\usepackage{listings}
+\lstdefinelanguage{Macaulay2}
+{morekeywords={for,from,if,do,while,apply,scan,print,method,help,viewHelp,table,exp,factor,needsPackage,ideal,det,determinan,res,coker,vars,Proj}, % TODO: use make-M2-symbols.m2
+sensitive=false,
+morecomment=[l]{--},
+morecomment=[s]{-*}{*-},
+morestring=[b]",
+rulecolor=\color{blue!30},
+}
+\lstset{
+  escapechar={`},
+  aboveskip=0pt,
+  belowskip=0pt,
+  numbers=none,
+  frame=leftline,
+  framerule=1ex,
+  framesep=1ex,
+  xleftmargin=2ex,
+  basicstyle={\ttfamily},
+  columns=fixed,
+  showstringspaces=false,
+  commentstyle={\ttfamily\color{gray}},
+  keywordstyle={\ttfamily\color{blue}},
+  stringstyle={\ttfamily},
+  fontadjust=true,
+  basewidth={1.09ex},
+  breaklines=false,
+}
 \usepackage[a4paper,left=2.25cm,right=2.25cm,top=3cm,bottom=3cm,headsep=1cm]{geometry}
 \usepackage{tikz}%\usetikzlibrary{fit,positioning,matrix,calc,decorations.markings,angles,decorations.pathmorphing,decorations.pathreplacing}%,matrix,fit,shapes.geometric}
 \title{Example file for M2inTeX}
@@ -9,53 +37,54 @@
 
 \section{Introduction}
 some basic examples:
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 R=QQ[x,y]; factor(x^3-y^3)
 res coker vars R
 OO_(Proj(R/(x^3-y^3)))^{1,2}
-\end{verbatim}
+\end{lstlisting}
 more:
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 318/46
 exp 3.73767
-\end{verbatim}
+\end{lstlisting}
 strings:
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 "hehe"
-\end{verbatim}
+\end{lstlisting}
 and nets: ({\tt tex Net} fixed on vanilla)
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 "haha"||"hoho"
-\end{verbatim}
+\end{lstlisting}
 
 \section{Help}
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 help det
-\end{verbatim}
+\end{lstlisting}
 
 \section{packages}
 packages that have a {\tt tex} output will work:
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 needsPackage "Posets";
 booleanLattice 3
-\end{verbatim}
+\end{lstlisting}
 
 \section{multi-line example}
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 f = i -> (
 i+1
 )
-\end{verbatim}
+\end{lstlisting}
 
 
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 I=ideal 0; f = i -> (
 i+1)
-\end{verbatim}
+\end{lstlisting}
 
-\begin{verbatim}
+\begin{lstlisting}[language=Macaulay2]
 a=1;b=2;
 c=3;
-\end{verbatim}
+\end{lstlisting}
+That last one has no output.
 
 \end{document}

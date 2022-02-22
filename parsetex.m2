@@ -1,8 +1,9 @@
 debug Core
 
-codeBegin = "\\begin{verbatim}"; -- the environment used in the TeX file for M2 code
+codeBegin = "\\begin{lstlisting}[language=Macaulay2]"; -- the environment used in the TeX file for M2 code
+codeEnd = "\\end{lstlisting}";
 
-codeEnd = "\\end{verbatim}";
+escapeChar = "`";
 
 verbatim := false; -- not thread-safe
 
@@ -37,16 +38,18 @@ parseTeX = f -> (
 -----------------
 lastprompt:=""; -- borrowed from startup.m2.in
 
-ZZ#{TeX,InputPrompt} = lineno -> (
-    concatenate(
-        inputComment,
-        if not verbatim then (verbatim = true; codeBegin|"\n"), -- should always be true
-        lastprompt = concatenate(interpreterDepth:"i",
-            toString lineno,
-            " : "),
-        ))
+ZZ#{TeX,InputPrompt} = lineno -> concatenate(
+    inputComment,
+    if not verbatim then (verbatim = true; codeBegin|"\n"), -- should always be true
+    escapeChar,
+    "\\underline{",
+    lastprompt = concatenate(interpreterDepth:"i",toString lineno),
+    "}",
+    escapeChar,
+    " : "
+    )
 
-ZZ#{TeX,InputContinuationPrompt} = lineno -> if verbatim then #lastprompt else (
+ZZ#{TeX,InputContinuationPrompt} = lineno -> if verbatim then #lastprompt+3 else (
     verbatim = true;
     concatenate(
 	codeBegin,
@@ -56,38 +59,42 @@ ZZ#{TeX,InputContinuationPrompt} = lineno -> if verbatim then #lastprompt else (
 
 Nothing#{TeX,Print} = identity
 
-on := () -> concatenate(interpreterDepth:"o", toString lineNumber)
+on := () -> concatenate(escapeChar,"\\underline{",interpreterDepth:"o", toString lineNumber,"}",escapeChar)
 
 Thing#{TeX,Print} = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";
-    << "\\noindent\\verb|" | on() | " = |" | y << endl
+    if not verbatim then (verbatim = true; << codeBegin|"\n"; );
+    << on() | " = " | escapeChar | y | escapeChar << endl
     )
-Thing#{TeX,BeforePrint} = x -> (
+
+closeMaybe = x -> (
     if verbatim then (
         << codeEnd|"\n";
         verbatim = false;
-        );
-    x
-    )
+        );    
+)    
 
 texAfterPrint :=  x -> (
     if class x === Sequence then x = RowExpression deepSplice { x };
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid html output";
-    << "\n\\noindent\\verb|" | on() | " : |" |  y  << endl;
+    if not verbatim then (verbatim = true; << codeBegin|"\n"; );
+    << on() | " : " | escapeChar |  y | escapeChar  << endl;
+    closeMaybe();
     )
 
+Thing#{TeX,AfterNoPrint} = closeMaybe
 
 -- all that's below would go if afterprint was expressionified
 
 Thing#{TeX,AfterPrint} = x -> texAfterPrint class x;
 
-Boolean#{TeX,AfterPrint} = identity
+Boolean#{TeX,AfterPrint} = closeMaybe
 
 Expression#{TeX,AfterPrint} = x -> texAfterPrint (Expression," of class ",class x)
 
-Describe#{TeX,AfterPrint} = identity
+Describe#{TeX,AfterPrint} = closeMaybe
 
 Ideal#{TeX,AfterPrint} = Ideal#{TeX,AfterNoPrint} = (I) -> texAfterPrint (Ideal," of ",ring I)
 MonomialIdeal#{TeX,AfterPrint} = MonomialIdeal#{TeX,AfterNoPrint} = (I) -> texAfterPrint (MonomialIdeal," of ",ring I)
@@ -107,9 +114,9 @@ Module#{TeX,AfterPrint} = M -> texAfterPrint(
 	)
     )
 
-Net#{TeX,AfterPrint} = identity
+Net#{TeX,AfterPrint} = closeMaybe
 
-Nothing#{TeX,AfterPrint} = identity
+Nothing#{TeX,AfterPrint} = closeMaybe
 
 Matrix#{TeX,AfterPrint} = Matrix#{TeX,AfterNoPrint} =
 RingMap#{TeX,AfterPrint} = RingMap#{TeX,AfterNoPrint} = f -> texAfterPrint (class f, " ", new MapExpression from {target f,source f})
@@ -133,5 +140,5 @@ CoherentSheaf#{TeX,AfterPrint} = F -> (
      )
  )
 
-ZZ#{TeX,AfterPrint} = identity
+ZZ#{TeX,AfterPrint} = closeMaybe
 
