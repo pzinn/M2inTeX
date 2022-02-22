@@ -1,19 +1,20 @@
 debug Core
 
-codeEnv = "verbatim"; -- the environment used in the TeX file for M2 code
+codeBegin = "\\begin{verbatim}"; -- the environment used in the TeX file for M2 code
 
+codeEnd = "\\end{verbatim}";
 
 verbatim := false; -- not thread-safe
 
 codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
-codeComment1 := regexQuote codeComment;
 
 inputComment := "% start M2\n"; -- comment added in TeX to mark start of a M2 code chunk
-inputComment1 := regexQuote inputComment;
-
-codeRegex := "(?<!"|regexQuote inputComment|")\\\\begin{"|regexQuote codeEnv|"}\n*([\\s\\S]*?)\n*\\\\end{"|codeEnv|"}";
 
 parseTeX = f -> (
+    codeRegex := "(?<!"|regexQuote inputComment|")"|regexQuote codeBegin|"\n*([\\s\\S]*?)\n*"|regexQuote codeEnd; -- the negative lookbehind means, don't rerun
+    codeComment1 := regexQuote codeComment;
+    inputComment1 := regexQuote inputComment;
+
     codes := select(codeRegex,codeComment|"$1",f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
     --print(codes,rest);
@@ -35,16 +36,23 @@ parseTeX = f -> (
 
 -----------------
 lastprompt:=""; -- borrowed from startup.m2.in
+
 ZZ#{TeX,InputPrompt} = lineno -> (
     concatenate(
         inputComment,
-        if not verbatim then (verbatim = true; "\\begin{verbatim}\n"),
+        if not verbatim then (verbatim = true; codeBegin|"\n"), -- should always be true
         lastprompt = concatenate(interpreterDepth:"i",
             toString lineno,
-            " : ")
+            " : "),
         ))
 
-ZZ#{TeX,InputContinuationPrompt} = lineno -> #lastprompt;
+ZZ#{TeX,InputContinuationPrompt} = lineno -> if verbatim then #lastprompt else (
+    verbatim = true;
+    concatenate(
+	codeBegin,
+	"\n",
+	#lastprompt:" "
+	))
 
 Nothing#{TeX,Print} = identity
 
@@ -53,11 +61,11 @@ on := () -> concatenate(interpreterDepth:"o", toString lineNumber)
 Thing#{TeX,Print} = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";
-    << "\\noindent\\verb|" | on() | " = |" | y << endl;
+    << "\\noindent\\verb|" | on() | " = |" | y << endl
     )
 Thing#{TeX,BeforePrint} = x -> (
     if verbatim then (
-        << "\\end{verbatim}\n";
+        << codeEnd|"\n";
         verbatim = false;
         );
     x
@@ -69,6 +77,7 @@ texAfterPrint :=  x -> (
     if class y =!= String then error "invalid html output";
     << "\n\\noindent\\verb|" | on() | " : |" |  y  << endl;
     )
+
 
 -- all that's below would go if afterprint was expressionified
 

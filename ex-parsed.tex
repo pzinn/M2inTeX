@@ -14,28 +14,28 @@ some basic examples:
 \begin{verbatim}
 i1 : R=QQ[x,y]; factor(x^3-y^3)
 \end{verbatim}
-\noindent\verb|o2 = |$\left(x-y\right)\left(x^{  2}+x\,y+y^{  2}\right)$
+\noindent\underline{\tt o2}\verb| = |$\left(x-y\right)\left(x^{2}+x\,y+y^{2}\right)$
 
-\noindent\verb|o2 : |$\texttt{Expression}$ of class $\texttt{Product}$
+\noindent\underline{\tt o2}\verb| : |$\texttt{Expression}$ of class $\texttt{Product}$
 % start M2
 \begin{verbatim}
 i3 : res coker vars R
 \end{verbatim}
-\noindent\verb|o3 = |$\underset{\vphantom{\Big|}0}{R^{  1}}\,\xleftarrow{\left(\begin{smallmatrix}
+\noindent\underline{\tt o3}\verb| = |$\underset{\vphantom{\Big|}0}{R^{1}}\,\xleftarrow{\left(\begin{smallmatrix}
 x&y\\
-\end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}1}{R^{  2}}\,\xleftarrow{\left(\begin{smallmatrix}
+\end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}1}{R^{2}}\,\xleftarrow{\left(\begin{smallmatrix}
 -y\\
 x\\
-\end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{  1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$
+\end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$
 
-\noindent\verb|o3 : |$\texttt{ChainComplex}$
+\noindent\underline{\tt o3}\verb| : |$\texttt{ChainComplex}$
 % start M2
 \begin{verbatim}
 i4 : OO_(Proj(R/(x^3-y^3)))^{1,2}
 \end{verbatim}
-\noindent\verb|o4 = |${\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{  3}-y^{  3}}\right)}^{  1}\left(  1\right)\ \oplus \ {\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{  3}-y^{  3}}\right)}^{  1}\left(  2\right)$
+\noindent\underline{\tt o4}\verb| = |${\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(1\right)\ \oplus \ {\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(2\right)$
 
-\noindent\verb|o4 : |coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{  3}-y^{  3}}\right)$, free
+\noindent\underline{\tt o4}\verb| : |coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)$, free
 \smallskip
 
 more:
@@ -44,16 +44,16 @@ more:
 \begin{verbatim}
 i5 : 318/46
 \end{verbatim}
-\noindent\verb|o5 = |$\frac{159}{ 23}$
+\noindent\underline{\tt o5}\verb| = |$\frac{159}{23}$
 
-\noindent\verb|o5 : |${\mathbb Q}$
+\noindent\underline{\tt o5}\verb| : |${\mathbb Q}$
 % start M2
 \begin{verbatim}
 i6 : exp 3.73767
 \end{verbatim}
-\noindent\verb|o6 = |${42}$
+\noindent\underline{\tt o6}\verb| = |${42}$
 
-\noindent\verb|o6 : |${\mathbb R}$ (of precision $ 53$)
+\noindent\underline{\tt o6}\verb| : |${\mathbb R}$ (of precision $53$)
 \smallskip
 
 strings:
@@ -62,7 +62,7 @@ strings:
 \begin{verbatim}
 i7 : "hehe"
 \end{verbatim}
-\noindent\verb|o7 = |hehe
+\noindent\underline{\tt o7}\verb| = |hehe
 \smallskip
 
 and nets: ({\tt tex Net} fixed on vanilla)
@@ -71,7 +71,7 @@ and nets: ({\tt tex Net} fixed on vanilla)
 \begin{verbatim}
 i8 : "haha"||"hoho"
 \end{verbatim}
-\noindent\verb|o8 = |\begin{tabular}[t]{l}haha\\
+\noindent\underline{\tt o8}\verb| = |\begin{tabular}[t]{l}haha\\
 hoho\end{tabular}
 \smallskip
 
@@ -82,7 +82,7 @@ hoho\end{tabular}
 \begin{verbatim}
 i9 : help det
 \end{verbatim}
-\noindent\verb|o9 = |
+\noindent\underline{\tt o9}\verb| = |
 \par \medskip\noindent\begingroup\Large\bf
 determinant -- determinant of a matrix\endgroup
 \par \smallskip%
@@ -136,7 +136,7 @@ For the programmer\endgroup
 
 \par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.
 
-\noindent\verb|o9 : |$\texttt{DIV}$
+\noindent\underline{\tt o9}\verb| : |$\texttt{DIV}$
 \smallskip
 
 
@@ -146,13 +146,12 @@ packages that have a {\tt tex} output will work:
 % start M2
 \begin{verbatim}
 i10 : needsPackage "Posets";
- -- warning: the "DefaultPDFViewer" configuration option is deprecated
 \end{verbatim}
 % start M2
 \begin{verbatim}
 i11 : booleanLattice 3
 \end{verbatim}
-\noindent\verb|o11 = |\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
+\noindent\underline{\tt o11}\verb| = |\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
 	\node [vertices] (0) at (-0+0,0){};
 	\node [vertices] (1) at (-1.5+0,1.33333){};
 	\node [vertices] (2) at (-1.5+1.5,1.33333){};
@@ -166,7 +165,7 @@ i11 : booleanLattice 3
 \end{tikzpicture}
 
 
-\noindent\verb|o11 : |$\texttt{Poset}$
+\noindent\underline{\tt o11}\verb| : |$\texttt{Poset}$
 \smallskip
 
 
@@ -178,11 +177,39 @@ i12 : f = i -> (
       i+1
       )
 \end{verbatim}
-\noindent\verb|o12 = |$\texttt{f}$
+\noindent\underline{\tt o12}\verb| = |$\texttt{f}$
 
-\noindent\verb|o12 : |$\texttt{FunctionClosure}$
+\noindent\underline{\tt o12}\verb| : |$\texttt{FunctionClosure}$
 \smallskip
 
+
+
+\smallskip
+% start M2
+\begin{verbatim}
+i13 : I=ideal 0; f = i -> (
+\end{verbatim}
+
+\noindent\underline{\tt o13}\verb| : |$\texttt{Ideal}$ of ${\mathbb Z}$
+\begin{verbatim}
+      i+1)
+\end{verbatim}
+\noindent\underline{\tt o14}\verb| = |$\texttt{f}$
+
+\noindent\underline{\tt o14}\verb| : |$\texttt{FunctionClosure}$
+\smallskip
+
+
+\smallskip
+% start M2
+\begin{verbatim}
+i15 : a=1;b=2;
+\end{verbatim}
+% start M2
+\begin{verbatim}
+i17 : c=3;
+\end{verbatim}
+\smallskip
 
 
 \end{document}
