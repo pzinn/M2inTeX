@@ -5,29 +5,41 @@ codeEnd = "\\end{lstlisting}";
 
 escapeChar = "`";
 
-verbatim := false; -- not thread-safe
-
 codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
+--codeComment := ""; -- added at the start of every code chunk to split correctly
 
 inputComment := "% start M2\n"; -- comment added in TeX to mark start of a M2 code chunk
 
+fmt = x -> replace("\n","@\n",x);
+
 parseTeX = f -> (
-    codeRegex := "(?<!"|regexQuote inputComment|")"|regexQuote codeBegin|"\n*([\\s\\S]*?)\n*"|regexQuote codeEnd; -- the negative lookbehind means, don't rerun
+    codeRegex := "(?<!"|regexQuote inputComment|")(?<="|regexQuote codeBegin|"\n)([\\s\\S]*?)(?="|regexQuote codeEnd|")"; -- the negative lookbehind means, don't rerun
     codeComment1 := regexQuote codeComment;
     inputComment1 := regexQuote inputComment;
 
-    codes := select(codeRegex,codeComment|"$1",f);
+    codes := select(codeRegex,f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
-    --print(codes,rest);
+    --print(fmt\codes,fmt\rest);
     saveMode := topLevelMode; -- not thread-safe
-    verbatim = false;
     topLevelMode = TeX;
-    s := capture append(codes,codeComment);
+    s := capture apply(codes,x->codeComment|x);
     if s#0 then print ("warning: running the code produced an error"|s#1);
     topLevelMode = saveMode;
-    --  s = separate("(?="|inputComment1|"[^%]*?"|codeComment|")",last s);
-    s = apply(drop(separate("(?="|inputComment1|"[^%]*?"|codeComment1|")",last s),-1),
-        x->"\\smallskip\n" | replace(codeComment1,"",x) | "\\smallskip\n");
+    --print (fmt s#1);
+    s = last s;
+    if last s == "\n" then s=substring(s,0,#s-1);
+    s = separate(codeComment1,s);
+    prev := s#0;
+    s = for i from 1 to #s-1 list (
+	prev | (
+	    l := regex("(\n).*(\n).*\\'",s#i);
+	    (a,b) := if l===null then (0,0) else (l#1#0,l#2#0);
+	    prev = substring(s#i,a+1,b-a-1);
+	    --print ("prev=",fmt prev);
+    	    substring(s#i,0,a)
+	    ));
+    --print (fmt\s);
+    if #rest != #s + 1 then print "warning: code/noncode mismatch";
     concatenate mingle(rest,s)
     )
 
@@ -39,8 +51,6 @@ parseTeX = f -> (
 lastprompt:=""; -- borrowed from startup.m2.in
 
 ZZ#{TeX,InputPrompt} = lineno -> concatenate(
-    inputComment,
-    if not verbatim then (verbatim = true; codeBegin|"\n"), -- should always be true
     escapeChar,
     "\\underline{",
     lastprompt = concatenate(interpreterDepth:"i",toString lineno),
@@ -49,13 +59,7 @@ ZZ#{TeX,InputPrompt} = lineno -> concatenate(
     " : "
     )
 
-ZZ#{TeX,InputContinuationPrompt} = lineno -> if verbatim then #lastprompt+3 else (
-    verbatim = true;
-    concatenate(
-	codeBegin,
-	"\n",
-	#lastprompt:" "
-	))
+ZZ#{TeX,InputContinuationPrompt} = lineno -> #lastprompt+3
 
 Nothing#{TeX,Print} = identity
 
@@ -64,22 +68,16 @@ on := () -> concatenate(escapeChar,"\\underline{",interpreterDepth:"o", toString
 Thing#{TeX,Print} = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";
-    if not verbatim then (verbatim = true; << codeBegin|"\n"; );
     << on() | " = " | escapeChar | y | escapeChar << endl
     )
 
 closeMaybe = x -> (
-    if verbatim then (
-        << codeEnd|"\n";
-        verbatim = false;
-        );    
 )    
 
 texAfterPrint :=  x -> (
     if class x === Sequence then x = RowExpression deepSplice { x };
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid html output";
-    if not verbatim then (verbatim = true; << codeBegin|"\n"; );
     << on() | " : " | escapeChar |  y | escapeChar  << endl;
     closeMaybe();
     )

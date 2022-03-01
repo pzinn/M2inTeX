@@ -37,17 +37,10 @@ rulecolor=\color{blue!30},
 
 \section{Introduction}
 some basic examples:
-\smallskip
-% start M2
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i1}` : R=QQ[x,y]; factor(x^3-y^3)
-\end{lstlisting}
-\begin{lstlisting}[language=Macaulay2]
 `\underline{o2}` = `$\left(x-y\right)\left(x^{2}+x\,y+y^{2}\right)$`
 `\underline{o2}` : `$\texttt{Expression}$ of class $\texttt{Product}$`
-\end{lstlisting}
-% start M2
-\begin{lstlisting}[language=Macaulay2]
 `\underline{i3}` : res coker vars R
 `\underline{o3}` = `$\underset{\vphantom{\Big|}0}{R^{1}}\,\xleftarrow{\left(\begin{smallmatrix}
 x&y\\
@@ -56,57 +49,42 @@ x&y\\
 x\\
 \end{smallmatrix}\right)}\,\underset{\vphantom{\Big|}2}{R^{1}}\,\xleftarrow{0}\,\underset{\vphantom{\Big|}3}{0}$`
 `\underline{o3}` : `$\texttt{ChainComplex}$`
-\end{lstlisting}
-% start M2
-\begin{lstlisting}[language=Macaulay2]
 `\underline{i4}` : OO_(Proj(R/(x^3-y^3)))^{1,2}
 `\underline{o4}` = `${\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(1\right)\ \oplus \ {\mathcal O}_{\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)}^{1}\left(2\right)$`
-`\underline{o4}` : `coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)$, free`
-\end{lstlisting}
-\smallskip
-
+`\underline{o4}` : `coherent sheaf on $\texttt{Proj}\left(\frac{R}{x^{3}-y^{3}}\right)$, free`\end{lstlisting}
 more:
-\smallskip
-% start M2
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i5}` : 318/46
 `\underline{o5}` = `$\frac{159}{23}$`
 `\underline{o5}` : `${\mathbb Q}$`
-\end{lstlisting}
-% start M2
-\begin{lstlisting}[language=Macaulay2]
 `\underline{i6}` : exp 3.73767
 `\underline{o6}` = `${42}$`
-`\underline{o6}` : `${\mathbb R}$ (of precision $53$)`
-\end{lstlisting}
-\smallskip
-
+`\underline{o6}` : `${\mathbb R}$ (of precision $53$)`\end{lstlisting}
 strings:
-\smallskip
-% start M2
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i7}` : "hehe"
-`\underline{o7}` = `hehe`
-\end{lstlisting}
-\smallskip
-
-and nets: ({\tt tex Net} fixed on vanilla)
-\smallskip
-% start M2
+`\underline{o7}` = `hehe`\end{lstlisting}
+and nets:
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i8}` : "haha"||"hoho"
 `\underline{o8}` = `\begin{tabular}[t]{l}haha\\
-hoho\end{tabular}`
-\end{lstlisting}
-\smallskip
-
+hoho\end{tabular}`\end{lstlisting}
+printing:
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i9}` : for i from 1 to 8 do print(i^i)
+1
+4
+27
+256
+3125
+46656
+823543
+16777216\end{lstlisting}
 
 \section{Help}
-\smallskip
-% start M2
 \begin{lstlisting}[language=Macaulay2]
-`\underline{i9}` : help det
-`\underline{o9}` = `
+`\underline{i10}` : help det
+`\underline{o10}` = `
 \par \medskip\noindent\begingroup\Large\bf
 determinant -- determinant of a matrix\endgroup
 \par \smallskip%
@@ -159,22 +137,14 @@ For the programmer\endgroup
 \par \smallskip%
 
 \par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.`
-`\underline{o9}` : `$\texttt{DIV}$`
-\end{lstlisting}
-\smallskip
+`\underline{o10}` : `$\texttt{DIV}$`\end{lstlisting}
 
-
-\section{packages}
+\section{Packages}
 packages that have a {\tt tex} output will work:
-\smallskip
-% start M2
 \begin{lstlisting}[language=Macaulay2]
-`\underline{i10}` : needsPackage "Posets";
-\end{lstlisting}
-% start M2
-\begin{lstlisting}[language=Macaulay2]
-`\underline{i11}` : booleanLattice 3
-`\underline{o11}` = `\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
+`\underline{i11}` : needsPackage "Posets";
+`\underline{i12}` : booleanLattice 3
+`\underline{o12}` = `\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
 	\node [vertices] (0) at (-0+0,0){};
 	\node [vertices] (1) at (-1.5+0,1.33333){};
 	\node [vertices] (2) at (-1.5+1.5,1.33333){};
@@ -187,50 +157,30 @@ packages that have a {\tt tex} output will work:
 \draw [-] (\to)--(\from);
 \end{tikzpicture}
 `
-`\underline{o11}` : `$\texttt{Poset}$`
-\end{lstlisting}
-\smallskip
+`\underline{o12}` : `$\texttt{Poset}$`\end{lstlisting}
 
-
-\section{multi-line example}
-\smallskip
-% start M2
+\section{Tricky examples}
 \begin{lstlisting}[language=Macaulay2]
-`\underline{i12}` : f = i -> (
+`\underline{i13}` : -- some tricky examples\end{lstlisting}
+A bunch of complicated cases: a multi-line example
+\begin{lstlisting}[language=Macaulay2]
+      f = i -> (
+      -- that's dumb
       i+1
       )
-`\underline{o12}` = `$\texttt{f}$`
-`\underline{o12}` : `$\texttt{FunctionClosure}$`
-\end{lstlisting}
-\smallskip
-
-
-
-\smallskip
-% start M2
+`\underline{o13}` = `$\texttt{f}$`
+`\underline{o13}` : `$\texttt{FunctionClosure}$`\end{lstlisting}
+and another weirder one:
 \begin{lstlisting}[language=Macaulay2]
-`\underline{i13}` : I=ideal 0; f = i -> (
-`\underline{o13}` : `$\texttt{Ideal}$ of ${\mathbb Z}$`
-\end{lstlisting}
+`\underline{i14}` : I=ideal 0; f = i -> (
+`\underline{o14}` : `$\texttt{Ideal}$ of ${\mathbb Z}$`
+      i+1)
+`\underline{o15}` = `$\texttt{f}$`
+`\underline{o15}` : `$\texttt{FunctionClosure}$`\end{lstlisting}
+finally:
 \begin{lstlisting}[language=Macaulay2]
-   i+1)
-`\underline{o14}` = `$\texttt{f}$`
-`\underline{o14}` : `$\texttt{FunctionClosure}$`
-\end{lstlisting}
-\smallskip
-
-
-\smallskip
-% start M2
-\begin{lstlisting}[language=Macaulay2]
-`\underline{i15}` : a=1;b=2;
-\end{lstlisting}
-% start M2
-\begin{lstlisting}[language=Macaulay2]
-`\underline{i17}` : c=3;
-\end{lstlisting}
-\smallskip
-
-That last one has no output
+`\underline{i16}` : a=1;b=2;
+`\underline{i18}` : c=3;\end{lstlisting}
+That last one has no output.
 
 \end{document}

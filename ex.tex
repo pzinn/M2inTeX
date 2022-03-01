@@ -51,9 +51,13 @@ strings:
 \begin{lstlisting}[language=Macaulay2]
 "hehe"
 \end{lstlisting}
-and nets: ({\tt tex Net} fixed on vanilla)
+and nets:
 \begin{lstlisting}[language=Macaulay2]
 "haha"||"hoho"
+\end{lstlisting}
+printing:
+\begin{lstlisting}[language=Macaulay2]
+for i from 1 to 8 do print(i^i)
 \end{lstlisting}
 
 \section{Help}
@@ -61,26 +65,30 @@ and nets: ({\tt tex Net} fixed on vanilla)
 help det
 \end{lstlisting}
 
-\section{packages}
+\section{Packages}
 packages that have a {\tt tex} output will work:
 \begin{lstlisting}[language=Macaulay2]
 needsPackage "Posets";
 booleanLattice 3
 \end{lstlisting}
 
-\section{multi-line example}
+\section{Tricky examples}
+\begin{lstlisting}[language=Macaulay2]
+-- some tricky examples
+\end{lstlisting}
+A bunch of complicated cases: a multi-line example
 \begin{lstlisting}[language=Macaulay2]
 f = i -> (
+-- that's dumb
 i+1
 )
 \end{lstlisting}
-
-
+and another weirder one:
 \begin{lstlisting}[language=Macaulay2]
 I=ideal 0; f = i -> (
 i+1)
 \end{lstlisting}
-
+finally:
 \begin{lstlisting}[language=Macaulay2]
 a=1;b=2;
 c=3;
