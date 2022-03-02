@@ -3,32 +3,26 @@ debug Core
 codeBegin = "\\begin{lstlisting}[language=Macaulay2]"; -- the environment used in the TeX file for M2 code
 codeEnd = "\\end{lstlisting}";
 
-escapeChar = "`";
+escapeChar = "`"; -- code used to tell listings package that go out of verbatim mode. may need to use more obscure character
 
 codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
---codeComment := ""; -- added at the start of every code chunk to split correctly
 
-inputComment := "% start M2\n"; -- comment added in TeX to mark start of a M2 code chunk
-
-fmt = x -> replace("\n","@\n",x);
+--fmt = x -> replace("\n","@\n",x);
 
 parseTeX = f -> (
-    codeRegex := "(?<!"|regexQuote inputComment|")(?<="|regexQuote codeBegin|"\n)([\\s\\S]*?)(?="|regexQuote codeEnd|")"; -- the negative lookbehind means, don't rerun
-    codeComment1 := regexQuote codeComment;
-    inputComment1 := regexQuote inputComment;
-
+    codeRegex := "(?<="|regexQuote codeBegin|"\n)([\\s\\S]*?)(?="|regexQuote codeEnd|")";
     codes := select(codeRegex,f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
     --print(fmt\codes,fmt\rest);
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
-    s := capture apply(codes,x->codeComment|x);
+    s := capture apply(codes,x->codeComment | x);
     if s#0 then print ("warning: running the code produced an error"|s#1);
     topLevelMode = saveMode;
     --print (fmt s#1);
     s = last s;
     if last s == "\n" then s=substring(s,0,#s-1);
-    s = separate(codeComment1,s);
+    s = separate(regexQuote codeComment,s);
     prev := s#0;
     s = for i from 1 to #s-1 list (
 	prev | (
