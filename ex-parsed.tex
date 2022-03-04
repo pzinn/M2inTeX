@@ -11,6 +11,7 @@ rulecolor=\color{blue!30},
 }
 \lstset{
   escapechar={`},
+%  escapebegin={\normalfont},
   aboveskip=0pt,
   belowskip=0pt,
   numbers=none,
@@ -66,9 +67,9 @@ strings:
 `\underline{o7}` = `hehe`\end{lstlisting}
 and nets:
 \begin{lstlisting}[language=Macaulay2]
-`\underline{i8}` : "haha"||"hoho"
-`\underline{o8}` = `\begin{tabular}[t]{l}haha\\
-hoho\end{tabular}`\end{lstlisting}
+`\underline{i8}` : "haha123456789"||"hoho!@#$%^&*("
+`\underline{o8}` = `\begin{tabular}[t]{l}haha123456789\\
+hoho!@{\char 35}{\char 36}{\char 37}{\char 94}{\char 38}*(\end{tabular}`\end{lstlisting}
 printing:
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i9}` : for i from 1 to 8 do print(i^i)
