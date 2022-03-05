@@ -65,28 +65,31 @@ Thing#{TeX,Print} = x -> (
     << on() | " = " | escapeChar | y | escapeChar << endl
     )
 
-closeMaybe = x -> (
-)    
-
 texAfterPrint :=  x -> (
     if class x === Sequence then x = RowExpression deepSplice { x };
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid html output";
     << on() | " : " | escapeChar |  y | escapeChar  << endl;
-    closeMaybe();
     )
 
-Thing#{TeX,AfterNoPrint} = closeMaybe
+Thing#{TeX,AfterNoPrint} = identity
+
+printFunc#TeX = x -> (
+    y := tex x; -- we compute the tex now (in case it produces an error)
+    if class y =!= String then error "invalid TeX output";
+    << escapeChar | y | escapeChar << endl;
+    )
+
 
 -- all that's below would go if afterprint was expressionified
 
 Thing#{TeX,AfterPrint} = x -> texAfterPrint class x;
 
-Boolean#{TeX,AfterPrint} = closeMaybe
+Boolean#{TeX,AfterPrint} = identity
 
 Expression#{TeX,AfterPrint} = x -> texAfterPrint (Expression," of class ",class x)
 
-Describe#{TeX,AfterPrint} = closeMaybe
+Describe#{TeX,AfterPrint} = identity
 
 Ideal#{TeX,AfterPrint} = Ideal#{TeX,AfterNoPrint} = (I) -> texAfterPrint (Ideal," of ",ring I)
 MonomialIdeal#{TeX,AfterPrint} = MonomialIdeal#{TeX,AfterNoPrint} = (I) -> texAfterPrint (MonomialIdeal," of ",ring I)
@@ -106,9 +109,9 @@ Module#{TeX,AfterPrint} = M -> texAfterPrint(
 	)
     )
 
-Net#{TeX,AfterPrint} = closeMaybe
+Net#{TeX,AfterPrint} = identity
 
-Nothing#{TeX,AfterPrint} = closeMaybe
+Nothing#{TeX,AfterPrint} = identity
 
 Matrix#{TeX,AfterPrint} = Matrix#{TeX,AfterNoPrint} =
 RingMap#{TeX,AfterPrint} = RingMap#{TeX,AfterNoPrint} = f -> texAfterPrint (class f, " ", new MapExpression from {target f,source f})
@@ -132,5 +135,5 @@ CoherentSheaf#{TeX,AfterPrint} = F -> (
      )
  )
 
-ZZ#{TeX,AfterPrint} = closeMaybe
+ZZ#{TeX,AfterPrint} = identity
 
