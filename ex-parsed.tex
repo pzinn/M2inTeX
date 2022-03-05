@@ -38,6 +38,7 @@ rulecolor=\color{blue!30},
 
 \section{Introduction}
 some basic examples:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i1}` : R=QQ[x,y]; factor(x^3-y^3)
 `\underline{o2}` = `$\left(x-y\right)\left(x^{2}+x\,y+y^{2}\right)$`
@@ -60,6 +61,7 @@ x
 \end{array}\!\right)$`
 `\underline{o5}` : `$\texttt{Matrix}$ ${\mathbb Z}^{2}\,\longleftarrow \,{\mathbb Z}^{2}$`\end{lstlisting}
 more:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i6}` : 318/46
 `\underline{o6}` = `$\frac{159}{23}$`
@@ -68,15 +70,18 @@ more:
 `\underline{o7}` = `${42}$`
 `\underline{o7}` : `${\mathbb R}$ (of precision $53$)`\end{lstlisting}
 strings:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i8}` : "hehe"
 `\underline{o8}` = `hehe`\end{lstlisting}
 and nets:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i9}` : "haha123456789"||"hoho!@#$%^&*("
 `\underline{o9}` = `\begin{tabular}[t]{l}haha123456789\\
 hoho!@{\char 35}{\char 36}{\char 37}{\char 94}{\char 38}*(\end{tabular}`\end{lstlisting}
 printing:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i10}` : for i from 1 to 4 do print(i+ii)
 `$1+\mathbf{i}$`
@@ -85,6 +90,7 @@ printing:
 `${4}+\mathbf{i}$`\end{lstlisting}
 
 \section{Help}
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i11}` : help det
 `\underline{o11}` = `
@@ -144,6 +150,7 @@ For the programmer\endgroup
 
 \section{Packages}
 packages that have a {\tt tex} output will work:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i12}` : needsPackage "Posets";
 `\underline{i13}` : booleanLattice 3
@@ -163,9 +170,11 @@ packages that have a {\tt tex} output will work:
 `\underline{o13}` : `$\texttt{Poset}$`\end{lstlisting}
 
 \section{Tricky examples}
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i14}` : -- some tricky examples\end{lstlisting}
 A bunch of complicated cases: a multi-line example
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
       f = i -> (
       -- that's dumb
@@ -174,6 +183,7 @@ A bunch of complicated cases: a multi-line example
 `\underline{o14}` = `$\texttt{f}$`
 `\underline{o14}` : `$\texttt{FunctionClosure}$`\end{lstlisting}
 and another weirder one:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i15}` : I=ideal 0; f = i -> (
 `\underline{o15}` : `$\texttt{Ideal}$ of ${\mathbb Z}$`
@@ -181,6 +191,7 @@ and another weirder one:
 `\underline{o16}` = `$\texttt{f}$`
 `\underline{o16}` : `$\texttt{FunctionClosure}$`\end{lstlisting}
 finally:
+% M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i17}` : a=1;b=2;
 `\underline{i19}` : c=3;\end{lstlisting}

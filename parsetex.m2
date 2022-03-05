@@ -1,37 +1,41 @@
 debug Core
 
-codeBegin = "\\begin{lstlisting}[language=Macaulay2]"; -- the environment used in the TeX file for M2 code
+codeBegin = "\\begin{lstlisting}[language=Macaulay2]\n"; -- the environment used in the TeX file for M2 code
 codeEnd = "\\end{lstlisting}";
 
 escapeChar = "`"; -- code used to tell listings package that go out of verbatim mode. may need to use more obscure character
 
 codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
 
+runComment := "% M2 output\n"; -- comment added in TeX to mark start of a M2 code chunk that's already been run
+
 --fmt = x -> replace("\n","@\n",x);
 
 parseTeX = f -> (
-    codeRegex := "(?<="|regexQuote codeBegin|"\n)([\\s\\S]*?)(?="|regexQuote codeEnd|")";
+    norerun := "(?<!"|regexQuote runComment|")"; -- to avoid rerunning
+    codeRegex := norerun | regexQuote codeBegin|"([\\s\\S]*?)"|regexQuote codeEnd;
     codes := select(codeRegex,f);
     rest := separate(codeRegex,f); -- seems silly to do the regex twice
     --print(fmt\codes,fmt\rest);
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
-    s := capture apply(codes,x->codeComment | x);
-    if s#0 then print ("warning: running the code produced an error"|s#1);
+    s := capture apply(codes,x->codeComment | substring(x,#codeBegin,#x-#codeBegin-#codeEnd));
     topLevelMode = saveMode;
+    if s#0 then print ("warning: running the code produced an error"|s#1);
     --print (fmt s#1);
     s = last s;
     if last s == "\n" then s=substring(s,0,#s-1);
     s = separate(regexQuote codeComment,s);
     prev := s#0;
     s = for i from 1 to #s-1 list (
-	prev | (
+	runComment | codeBegin | prev | (
 	    l := regex("(\n).*(\n).*\\'",s#i);
 	    (a,b) := if l===null then (0,0) else (l#1#0,l#2#0);
 	    prev = substring(s#i,a+1,b-a-1);
 	    --print ("prev=",fmt prev);
     	    substring(s#i,0,a)
-	    ));
+	    ) | codeEnd
+	);
     --print (fmt\s);
     if #rest != #s + 1 then print "warning: code/noncode mismatch";
     concatenate mingle(rest,s)
