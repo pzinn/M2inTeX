@@ -97,4 +97,9 @@ c=3;
 \end{lstlisting}
 That last one has no output.
 
+\section{Reusing output}
+\newcommand\macoutput[1]{{\tt [Macaulay2 output o#1]}}%placeholder to compile w/o running M2
+The output {\tt o5} is \macoutput{5}.
+The nonexistent output {\tt o18} is \macoutput{18}.
+
 \end{document}

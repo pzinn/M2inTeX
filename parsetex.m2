@@ -9,17 +9,22 @@ codeComment := "-* start code *- "; -- added at the start of every code chunk to
 
 runComment := "% M2 output\n"; -- comment added in TeX to mark start of a M2 code chunk that's already been run
 
+outputCmd = "\\macoutput"; -- for direct access to output
+
 --fmt = x -> replace("\n","@\n",x);
 
-parseTeX = f -> (
+local outputLst;
+
+parseTeX = s -> (
     norerun := "(?<!"|regexQuote runComment|")"; -- to avoid rerunning
     codeRegex := norerun | regexQuote codeBegin|"([\\s\\S]*?)"|regexQuote codeEnd;
-    codes := select(codeRegex,f);
-    rest := separate(codeRegex,f); -- seems silly to do the regex twice
+    codes := select(codeRegex,s);
+    rest := separate(codeRegex,s); -- seems silly to do the regex twice
     --print(fmt\codes,fmt\rest);
+    outputLst = new MutableList;
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
-    s := capture apply(codes,x->codeComment | substring(x,#codeBegin,#x-#codeBegin-#codeEnd));
+    s = capture apply(codes,x -> codeComment | substring(x,#codeBegin,#x-#codeBegin-#codeEnd));
     topLevelMode = saveMode;
     if s#0 then print ("warning: running the code produced an error"|s#1);
     --print (fmt s#1);
@@ -38,7 +43,14 @@ parseTeX = f -> (
 	);
     --print (fmt\s);
     if #rest != #s + 1 then print "warning: code/noncode mismatch";
-    concatenate mingle(rest,s)
+    s = concatenate mingle(rest,s);
+    -- final step: replace outputCmd with actual output
+    outputRegex := "(?<!%)" | regexQuote outputCmd | "\\{\\d+\\}";
+    codes = select(outputRegex,s);
+    rest = separate(outputRegex,s); -- seems silly to do the regex twice
+    concatenate mingle(rest, apply(codes, x -> (
+		i := value substring(x,#outputCmd+1,#x-#outputCmd-2);
+		(if outputLst#?i then outputLst#i else "") | "%" | x | "\n" )))
     )
 
 -* ex of use
@@ -66,6 +78,7 @@ on := () -> concatenate(escapeChar,"\\underline{",interpreterDepth:"o", toString
 Thing#{TeX,Print} = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";
+    outputLst#lineNumber = y; -- store output
     << on() | " = " | escapeChar | y | escapeChar << endl
     )
 
