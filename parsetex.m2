@@ -3,7 +3,9 @@ debug Core
 codeBegin = "\\begin{lstlisting}[language=Macaulay2]\n"; -- the environment used in the TeX file for M2 code
 codeEnd = "\\end{lstlisting}";
 
-escapeChar = "`"; -- code used to tell listings package that go out of verbatim mode. may need to use more obscure character
+inputCmd = "\\lstinputlisting[language=Macaulay2]"; -- same thing but inputs the code from an external file
+
+escapeChar = "`"; -- code used to tell listings package to go out of verbatim mode. may need to use more obscure character
 
 codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
 
@@ -13,21 +15,33 @@ outputCmd = "\\macoutput"; -- for direct access to output
 
 --fmt = x -> replace("\n","@\n",x);
 
-local outputLst;
+local outputs;
 
-parseTeX = s -> (
+parseFile = fn -> (
+    r := regex("/[^/]*$",fn);
+    parseTeX(get fn, Path => if r === null then "" else substring(fn,0,r#0#0+1))
+    )
+
+-* ex of use
+"M2inTeX/ex-parsed.tex" << parseFile "M2inTeX/ex.tex" << close
+*-
+
+parseTeX = { Path => "" } >> o -> s -> (
     norerun := "(?<!"|regexQuote runComment|")"; -- to avoid rerunning
-    codeRegex := norerun | regexQuote codeBegin|"([\\s\\S]*?)"|regexQuote codeEnd;
+    -- codeRegex := norerun | regexQuote codeBegin|"[\\s\\S]*?"|regexQuote codeEnd;
+    codeRegex := norerun | "(" | regexQuote codeBegin|"([\\s\\S]*?)"|regexQuote codeEnd | "|" | regexQuote inputCmd | "\\{.*?\\}" | ")";
     codes := select(codeRegex,s);
     rest := separate(codeRegex,s); -- seems silly to do the regex twice
     --print(fmt\codes,fmt\rest);
-    outputLst = new MutableList;
+    outputs = new MutableHashTable;
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
-    s = capture apply(codes,x -> codeComment | substring(x,#codeBegin,#x-#codeBegin-#codeEnd));
+    s = capture apply(codes, x -> codeComment | if substring(x,0,#codeBegin) == codeBegin then substring(x,#codeBegin,#x-#codeBegin-#codeEnd)
+	else get (o.Path|substring(x,#inputCmd+1,#x-#inputCmd-2)));
     topLevelMode = saveMode;
     if s#0 then print ("warning: running the code produced an error"|s#1);
     --print (fmt s#1);
+    --print peek outputs;
     s = last s;
     if last s == "\n" then s=substring(s,0,#s-1);
     s = separate(regexQuote codeComment,s);
@@ -50,11 +64,11 @@ parseTeX = s -> (
     rest = separate(outputRegex,s); -- seems silly to do the regex twice
     concatenate mingle(rest, apply(codes, x -> (
 		i := value substring(x,#outputCmd+1,#x-#outputCmd-2);
-		(if outputLst#?i then outputLst#i else "") | "%" | x | "\n" )))
+		(if outputs#?i then outputs#i else "") | "%" | x | "\n" )))
     )
 
--* ex of use
-"M2inTeX/ex-parsed.tex" << parseTeX get "M2inTeX/ex.tex" << close
+-* ex of use (assuming ex.tex is in the current directory)
+"ex-parsed.tex" << parseTeX get "ex.tex" << close
 *-
 
 -----------------
@@ -78,7 +92,7 @@ on := () -> concatenate(escapeChar,"\\underline{",interpreterDepth:"o", toString
 Thing#{TeX,Print} = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";
-    outputLst#lineNumber = y; -- store output
+    outputs#lineNumber = y; -- store output
     << on() | " = " | escapeChar | y | escapeChar << endl
     )
 

@@ -151,7 +151,6 @@ packages that have a {\tt tex} output will work:
 % M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i12}` : needsPackage "Posets";
---loading configuration for package "FourTiTwo" from file /home/pzinn/.Macaulay2/init-FourTiTwo.m2
 `\underline{i13}` : booleanLattice 3
 `\underline{o13}` = `\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
 	\node [vertices] (0) at (-0+0,0){};
@@ -205,5 +204,17 @@ The output {\tt o5} is $\left(\!\begin{array}{cc}
 .
 The nonexistent output {\tt o18} is %\macoutput{18}
 .
+
+\section{Inputting from external file}
+Some more code:
+% M2 output
+\begin{lstlisting}[language=Macaulay2]
+`\underline{i20}` : -- a test file
+      R=QQ[x,y,z]
+`\underline{o20}` = `$R$`
+`\underline{o20}` : `$\texttt{PolynomialRing}$`
+`\underline{i21}` : poincare ideal(x^2+y^2,x^3+z^3)
+`\underline{o21}` = `$1-T^{2}-T^{3}+T^{5}$`
+`\underline{o21}` : `${\mathbb Z}\mathopen{}\left[T\right]$`\end{lstlisting}
 
 \end{document}
