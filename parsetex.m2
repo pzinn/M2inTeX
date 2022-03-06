@@ -91,6 +91,8 @@ texAfterPrint :=  x -> (
 
 Thing#{TeX,AfterNoPrint} = identity
 
+InexactNumber#{TeX,Print} = x ->  withFullPrecision ( () -> Thing#{TeX,Print} x )
+
 printFunc#TeX = x -> (
     y := tex x; -- we compute the tex now (in case it produces an error)
     if class y =!= String then error "invalid TeX output";

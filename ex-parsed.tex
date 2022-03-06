@@ -8,26 +8,24 @@ morecomment=[l]{--},
 morecomment=[s]{-*}{*-},
 morestring=[b]",
 rulecolor=\color{blue!30},
-}
-\lstset{
-  escapechar={`},
+escapechar={`},
 %  escapebegin={\normalfont},
-  aboveskip=0pt,
-  belowskip=0pt,
-  numbers=none,
-  frame=leftline,
-  framerule=1ex,
-  framesep=1ex,
-  xleftmargin=2ex,
-  basicstyle={\ttfamily},
-  columns=fixed,
-  showstringspaces=false,
-  commentstyle={\ttfamily\color{gray}},
-  keywordstyle={\ttfamily\color{blue}},
-  stringstyle={\ttfamily},
-  fontadjust=true,
-  basewidth={1.09ex},
-  breaklines=false,
+aboveskip=0pt,
+belowskip=0pt,
+numbers=none,
+frame=leftline,
+framerule=1ex,
+framesep=1ex,
+xleftmargin=2ex,
+basicstyle={\ttfamily},
+columns=fixed,
+showstringspaces=false,
+commentstyle={\ttfamily\color{gray}},
+keywordstyle={\ttfamily\color{blue}},
+stringstyle={\ttfamily},
+fontadjust=true,
+basewidth={1.09ex},
+breaklines=false,
 }
 \usepackage[a4paper,left=2.25cm,right=2.25cm,top=3cm,bottom=3cm,headsep=1cm]{geometry}
 \usepackage{tikz}%\usetikzlibrary{fit,positioning,matrix,calc,decorations.markings,angles,decorations.pathmorphing,decorations.pathreplacing}%,matrix,fit,shapes.geometric}
@@ -67,7 +65,7 @@ more:
 `\underline{o6}` = `$\frac{159}{23}$`
 `\underline{o6}` : `${\mathbb Q}$`
 `\underline{i7}` : exp 3.73767
-`\underline{o7}` = `${42}$`
+`\underline{o7}` = `${42.0000160321016}$`
 `\underline{o7}` : `${\mathbb R}$ (of precision $53$)`\end{lstlisting}
 strings:
 % M2 output
@@ -153,6 +151,7 @@ packages that have a {\tt tex} output will work:
 % M2 output
 \begin{lstlisting}[language=Macaulay2]
 `\underline{i12}` : needsPackage "Posets";
+--loading configuration for package "FourTiTwo" from file /home/pzinn/.Macaulay2/init-FourTiTwo.m2
 `\underline{i13}` : booleanLattice 3
 `\underline{o13}` = `\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
 	\node [vertices] (0) at (-0+0,0){};
@@ -198,6 +197,7 @@ finally:
 That last one has no output.
 
 \section{Reusing output}
+\newcommand\macoutput[1]{{\tt [Macaulay2 output o#1]}}%placeholder to compile w/o running M2
 The output {\tt o5} is $\left(\!\begin{array}{cc}
 1&2\\
 3&4
