@@ -37,7 +37,7 @@ parseTeX = { Path => "" } >> o -> s -> (
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
     s = capture apply(codes, x -> codeComment | if substring(x,0,#codeBegin) == codeBegin then substring(x,#codeBegin,#x-#codeBegin-#codeEnd)
-	else get (o.Path|substring(x,#inputCmd+1,#x-#inputCmd-2)));
+	else try get (o.Path|substring(x,#inputCmd+1,#x-#inputCmd-2)));
     topLevelMode = saveMode;
     if s#0 then print ("warning: running the code produced an error"|s#1);
     --print (fmt s#1);

@@ -1,34 +1,24 @@
 \documentclass[12pt,a4paper]{amsart}
 \usepackage{amssymb}
+\usepackage{tikz}
 \usepackage{listings}
-\lstdefinelanguage{Macaulay2}
-{morekeywords={for,from,to,if,do,while,apply,scan,print,method,help,viewHelp,table,exp,factor,needsPackage,ideal,det,determinan,res,coker,vars,Proj}, % TODO: use make-M2-symbols.m2
-sensitive=false,
-morecomment=[l]{--},
-morecomment=[s]{-*}{*-},
-morestring=[b]",
-rulecolor=\color{blue!30},
-escapechar={`},
-%  escapebegin={\normalfont},
+\input lst-Macaulay2.tex
+\lstset
+{
 aboveskip=0pt,
 belowskip=0pt,
 numbers=none,
-frame=leftline,
+frame=leftline,% comment out if you don't like the blue rectangles
 framerule=1ex,
 framesep=1ex,
 xleftmargin=2ex,
-basicstyle={\ttfamily},
 columns=fixed,
 showstringspaces=false,
-commentstyle={\ttfamily\color{gray}},
-keywordstyle={\ttfamily\color{blue}},
-stringstyle={\ttfamily},
 fontadjust=true,
 basewidth={1.09ex},
 breaklines=false,
 }
 \usepackage[a4paper,left=2.25cm,right=2.25cm,top=3cm,bottom=3cm,headsep=1cm]{geometry}
-\usepackage{tikz}%\usetikzlibrary{fit,positioning,matrix,calc,decorations.markings,angles,decorations.pathmorphing,decorations.pathreplacing}%,matrix,fit,shapes.geometric}
 \title{Example file for M2inTeX}
 \author{Paul Zinn-Justin}
 \begin{document}
@@ -196,7 +186,6 @@ finally:
 That last one has no output.
 
 \section{Reusing output}
-\newcommand\macoutput[1]{{\tt [Macaulay2 output o#1]}}%placeholder to compile w/o running M2
 The output {\tt o5} is $\left(\!\begin{array}{cc}
 1&2\\
 3&4
