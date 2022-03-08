@@ -8,9 +8,9 @@ inputCmd = "\\lstinputlisting"; -- same thing but inputs the code from an extern
 inputLanguage = "Macaulay2"; -- option [language=Macaulay2] to the commands above
 outputLanguage = "Macaulay2output"; -- really just an alias to avoid rerunning run code
 
-escapeChar = "`"; -- code used to tell listings package to go out of verbatim mode. may need to use more obscure character
+escapeChar = "`"; -- code to tell listings package to go out of verbatim mode. may need to use more obscure character
 
-codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
+codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly. internal use only
 
 outputCmd = "\\macoutput"; -- for direct access to output
 
@@ -34,7 +34,6 @@ parseTeX = { Path => "" } >> o -> s -> (
     codes := select(codeRegex,s);
     rest := separate(codeRegex,s); -- seems silly to do the regex twice
     --print(fmt\codes,fmt\rest);
-    outputs = new MutableHashTable;
     codes = apply(codes, x -> (
 	    r := regex(codeRegex,x); -- ... and once more ...
 	    if r#1#1 != 0 then (
@@ -45,6 +44,7 @@ parseTeX = { Path => "" } >> o -> s -> (
 		try get (o.Path|substring(r#6,x)) else ""
 	       )
 	   ));
+    outputs = new MutableHashTable;
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
     s = capture apply(codes, x -> codeComment | x#1);
