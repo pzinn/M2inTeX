@@ -1,15 +1,16 @@
 debug Core
 
-codeBegin = "\\begin{lstlisting}[language=Macaulay2]\n"; -- the environment used in the TeX file for M2 code
+codeBegin = "\\begin{lstlisting}"; -- the environment used in the TeX file for M2 code
 codeEnd = "\\end{lstlisting}";
 
-inputCmd = "\\lstinputlisting[language=Macaulay2]"; -- same thing but inputs the code from an external file
+inputCmd = "\\lstinputlisting"; -- same thing but inputs the code from an external file
+
+inputLanguage = "Macaulay2"; -- option [language=Macaulay2] to the commands above
+outputLanguage = "Macaulay2output"; -- really just an alias to avoid rerunning run code
 
 escapeChar = "`"; -- code used to tell listings package to go out of verbatim mode. may need to use more obscure character
 
 codeComment := "-* start code *- "; -- added at the start of every code chunk to split correctly
-
-runComment := "% M2 output\n"; -- comment added in TeX to mark start of a M2 code chunk that's already been run
 
 outputCmd = "\\macoutput"; -- for direct access to output
 
@@ -27,17 +28,26 @@ parseFile = fn -> (
 *-
 
 parseTeX = { Path => "" } >> o -> s -> (
-    norerun := "(?<!"|regexQuote runComment|")"; -- to avoid rerunning
-    -- codeRegex := norerun | regexQuote codeBegin|"[\\s\\S]*?"|regexQuote codeEnd;
-    codeRegex := norerun | "(" | regexQuote codeBegin|"([\\s\\S]*?)"|regexQuote codeEnd | "|" | regexQuote inputCmd | "\\{.*?\\}" | ")";
+    langRegex := "(\\[[^\\]]*language=)"|inputLanguage|"(\\]|,[\\s\\S]*?\\])";
+    codeRegex := "(?:" | regexQuote codeBegin | langRegex | "\n([\\s\\S]*?)"|regexQuote codeEnd
+    | "|" | regexQuote inputCmd | langRegex | "\\{(.*?)\\}" | ")"; -- phew
     codes := select(codeRegex,s);
     rest := separate(codeRegex,s); -- seems silly to do the regex twice
     --print(fmt\codes,fmt\rest);
     outputs = new MutableHashTable;
+    codes = apply(codes, x -> (
+	    r := regex(codeRegex,x); -- ... and once more ...
+	    if r#1#1 != 0 then (
+		substring(r#1,x) | outputLanguage | substring(r#2,x) | "\n", -- option
+		substring(r#3,x) -- code
+		) else (
+		substring(r#4,x) | outputLanguage | substring(r#5,x) | "\n",
+		try get (o.Path|substring(r#6,x)) else ""
+	       )
+	   ));
     saveMode := topLevelMode; -- not thread-safe
     topLevelMode = TeX;
-    s = capture apply(codes, x -> codeComment | if substring(x,0,#codeBegin) == codeBegin then substring(x,#codeBegin,#x-#codeBegin-#codeEnd)
-	else try get (o.Path|substring(x,#inputCmd+1,#x-#inputCmd-2)));
+    s = capture apply(codes, x -> codeComment | x#1);
     topLevelMode = saveMode;
     if s#0 then print ("warning: running the code produced an error"|s#1);
     --print (fmt s#1);
@@ -47,13 +57,13 @@ parseTeX = { Path => "" } >> o -> s -> (
     s = separate(regexQuote codeComment,s);
     prev := s#0;
     s = for i from 1 to #s-1 list (
-	runComment | codeBegin | prev | (
+	codeBegin | codes#(i-1)#0 | prev | (
 	    l := regex("(\n).*(\n).*\\'",s#i);
 	    (a,b) := if l===null then (0,0) else (l#1#0,l#2#0);
 	    prev = substring(s#i,a+1,b-a-1);
 	    --print ("prev=",fmt prev);
     	    substring(s#i,0,a)
-	    ) | codeEnd
+	    ) | "\n" | codeEnd
 	);
     --print (fmt\s);
     if #rest != #s + 1 then print "warning: code/noncode mismatch";

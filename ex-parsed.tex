@@ -26,8 +26,7 @@ breaklines=false,
 
 \section{Introduction}
 some basic examples:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i1}` : R=QQ[x,y]; factor(x^3-y^3)
 `\underline{o2}` = `$\left(x-y\right)\left(x^{2}+x\,y+y^{2}\right)$`
 `\underline{o2}` : `$\texttt{Expression}$ of class $\texttt{Product}$`
@@ -47,39 +46,39 @@ x
 1&2\\
 3&4
 \end{array}\!\right)$`
-`\underline{o5}` : `$\texttt{Matrix}$ ${\mathbb Z}^{2}\,\longleftarrow \,{\mathbb Z}^{2}$`\end{lstlisting}
+`\underline{o5}` : `$\texttt{Matrix}$ ${\mathbb Z}^{2}\,\longleftarrow \,{\mathbb Z}^{2}$`
+\end{lstlisting}
 more:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i6}` : 318/46
 `\underline{o6}` = `$\frac{159}{23}$`
 `\underline{o6}` : `${\mathbb Q}$`
 `\underline{i7}` : exp 3.73767
 `\underline{o7}` = `${42.0000160321016}$`
-`\underline{o7}` : `${\mathbb R}$ (of precision $53$)`\end{lstlisting}
+`\underline{o7}` : `${\mathbb R}$ (of precision $53$)`
+\end{lstlisting}
 strings:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i8}` : "hehe"
-`\underline{o8}` = `hehe`\end{lstlisting}
+`\underline{o8}` = `hehe`
+\end{lstlisting}
 and nets:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i9}` : "haha123456789"||"hoho!@#$%^&*("
 `\underline{o9}` = `\begin{tabular}[t]{l}haha123456789\\
-hoho!@{\char 35}{\char 36}{\char 37}{\char 94}{\char 38}*(\end{tabular}`\end{lstlisting}
+hoho!@{\char 35}{\char 36}{\char 37}{\char 94}{\char 38}*(\end{tabular}`
+\end{lstlisting}
 printing:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i10}` : for i from 1 to 4 do print(i+ii)
 `$1+\mathbf{i}$`
 `${2}+\mathbf{i}$`
 `${3}+\mathbf{i}$`
-`${4}+\mathbf{i}$`\end{lstlisting}
+`${4}+\mathbf{i}$`
+\end{lstlisting}
 
 \section{Help}
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i11}` : help det
 `\underline{o11}` = `
 \par \medskip\noindent\begingroup\Large\bf
@@ -134,12 +133,12 @@ For the programmer\endgroup
 \par \smallskip%
 
 \par The object \begingroup\tt determinant\endgroup{} is a \begingroup\tt method\ function\ with\ options\endgroup{}.`
-`\underline{o11}` : `$\texttt{DIV}$`\end{lstlisting}
+`\underline{o11}` : `$\texttt{DIV}$`
+\end{lstlisting}
 
 \section{Packages}
 packages that have a {\tt tex} output will work:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i12}` : needsPackage "Posets";
 `\underline{i13}` : booleanLattice 3
 `\underline{o13}` = `\begin{tikzpicture}[scale=1, vertices/.style={draw, fill=black, circle, inner sep=0pt}]
@@ -155,34 +154,35 @@ packages that have a {\tt tex} output will work:
 \draw [-] (\to)--(\from);
 \end{tikzpicture}
 `
-`\underline{o13}` : `$\texttt{Poset}$`\end{lstlisting}
+`\underline{o13}` : `$\texttt{Poset}$`
+\end{lstlisting}
 
 \section{Tricky examples}
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
-`\underline{i14}` : -- some tricky examples\end{lstlisting}
+\begin{lstlisting}[language=Macaulay2output]
+`\underline{i14}` : -- some tricky examples
+\end{lstlisting}
 A bunch of complicated cases: a multi-line example
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
       f = i -> (
       -- that's dumb
       i+1
       )
 `\underline{o14}` = `$\texttt{f}$`
-`\underline{o14}` : `$\texttt{FunctionClosure}$`\end{lstlisting}
+`\underline{o14}` : `$\texttt{FunctionClosure}$`
+\end{lstlisting}
 and another weirder one:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i15}` : I=ideal 0; f = i -> (
 `\underline{o15}` : `$\texttt{Ideal}$ of ${\mathbb Z}$`
       i+1)
 `\underline{o16}` = `$\texttt{f}$`
-`\underline{o16}` : `$\texttt{FunctionClosure}$`\end{lstlisting}
+`\underline{o16}` : `$\texttt{FunctionClosure}$`
+\end{lstlisting}
 finally:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i17}` : a=1;b=2;
-`\underline{i19}` : c=3;\end{lstlisting}
+`\underline{i19}` : c=3;
+\end{lstlisting}
 That last one has no output.
 
 \section{Reusing output}
@@ -196,14 +196,20 @@ The nonexistent output {\tt o18} is %\macoutput{18}
 
 \section{Inputting from external file}
 Some more code:
-% M2 output
-\begin{lstlisting}[language=Macaulay2]
+\begin{lstlisting}[language=Macaulay2output]
 `\underline{i20}` : -- a test file
       R=QQ[x,y,z]
 `\underline{o20}` = `$R$`
 `\underline{o20}` : `$\texttt{PolynomialRing}$`
 `\underline{i21}` : poincare ideal(x^2+y^2,x^3+z^3)
 `\underline{o21}` = `$1-T^{2}-T^{3}+T^{5}$`
-`\underline{o21}` : `${\mathbb Z}\mathopen{}\left[T\right]$`\end{lstlisting}
+`\underline{o21}` : `${\mathbb Z}\mathopen{}\left[T\right]$`
+\end{lstlisting}
+
+\section{Changing key/values}
+\begin{lstlisting}[showstringspaces=true,language=Macaulay2output,basewidth={1.5ex}]
+`\underline{i22}` : "some weird spacing  and string style"
+`\underline{o22}` = `some weird spacing  and string style`
+\end{lstlisting}
 
 \end{document}
